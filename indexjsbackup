@@ -1,0 +1,33 @@
+require("dotenv").config();
+const express = require("express");
+const { Pool } = require("pg");
+const bodyParser = require("body-parser");
+const app = express();
+
+// Database Connection
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+
+// Middleware
+app.set("view engine", "ejs");
+app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Routes
+app.get("/", async (req, res) => {
+  const result = await pool.query("SELECT * FROM todos");
+  res.render("index", { todos: result.rows });
+});
+
+app.post("/add", async (req, res) => {
+  const { task } = req.body;
+  await pool.query("INSERT INTO todos (task) VALUES ($1)", [task]);
+  res.redirect("/");
+});
+
+// Start Server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+

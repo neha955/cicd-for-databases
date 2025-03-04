@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        form { margin-bottom: 20px; }
+        input { padding: 8px; width: 250px; }
+        button { padding: 8px 15px; background-color: #28a745; color: white; border: none; cursor: pointer; }
+        ul { list-style-type: none; padding: 0; }
+        li { padding: 8px; margin: 5px; background: #f4f4f4; display: inline-block; width: 300px; }
+    </style>
+</head>
+<body>
+
+    <h1>Todo List</h1>
+
+    <!-- Form to Add a New Todo -->
+    <form action="/add" method="POST">
+        <input type="text" name="task" placeholder="Enter a new task" required>
+        <button type="submit">Add Todo</button>
+    </form>
+
+    <!-- Display Existing Todos -->
+    <ul>
+        <% todos.forEach(todo => { %>
+            <li><%= todo.task %></li>
+        <% }); %>
+    </ul>
+
+</body>
+</html>
+
